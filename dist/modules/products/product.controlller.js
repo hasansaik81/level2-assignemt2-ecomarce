@@ -9,11 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.prductController = void 0;
+exports.productController = void 0;
 const product_services_1 = require("./product.services");
+const zod_1 = require("zod");
+const product_validation_1 = require("./product.validation");
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const validateData = productValidationSchema.parse(req.body);
+        const validateData = product_validation_1.productValidationSchema.parse(req.body);
         const result = yield product_services_1.productServices.createProduct(validateData);
         res.json({
             success: true,
@@ -22,7 +24,7 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
     catch (error) {
-        if (error instanceof z.ZodError) {
+        if (error instanceof zod_1.z.ZodError) {
             return res.status(400).json({
                 success: false,
                 message: "Validation error",
@@ -101,7 +103,7 @@ const getProductById = (req, res) => __awaiter(void 0, void 0, void 0, function*
 });
 const updateProductById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield product_services_1.productServices.updateProductByID(req.params.productId, req.body);
+        const result = yield product_services_1.productServices.updateProductById(req.params.productId, req.body);
         if (!result) {
             return res.status(404).json({
                 success: false,
@@ -114,7 +116,7 @@ const updateProductById = (req, res) => __awaiter(void 0, void 0, void 0, functi
             data: result,
         });
     }
-    catch (_b) {
+    catch (error) {
         if (error instanceof Error) {
             return res.status(400).json({
                 success: false,
@@ -130,7 +132,7 @@ const updateProductById = (req, res) => __awaiter(void 0, void 0, void 0, functi
 });
 const deleteProductById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield product_services_1.productServices.deleteProductByID(req.params.productId);
+        const result = yield product_services_1.productServices.deleteProductById(req.params.productId);
         if (!result) {
             return res.status(404).json({
                 success: false,
@@ -143,7 +145,7 @@ const deleteProductById = (req, res) => __awaiter(void 0, void 0, void 0, functi
             data: result,
         });
     }
-    catch (_c) {
+    catch (err) {
         if (err instanceof Error) {
             return res.status(400).json({
                 success: false,
@@ -189,10 +191,10 @@ const searchOrGetAllProducts = (req, res) => __awaiter(void 0, void 0, void 0, f
         }
     }
     else {
-        getAllProducts(req, res);
+        getAllProducts(res, res);
     }
 });
-exports.prductController = {
+exports.productController = {
     createProduct,
     getAllProducts,
     getProductById,

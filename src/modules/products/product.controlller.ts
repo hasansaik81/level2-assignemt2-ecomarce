@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import { productServices } from "./product.services";
+import { z } from "zod";
+import { productValidationSchema} from "./product.validation";
 
 const createProduct = async (req: Request, res: Response) => {
     try {
@@ -89,7 +91,7 @@ const createProduct = async (req: Request, res: Response) => {
 
   const updateProductById=async(req:Request,res:Response)=>{
     try{
-        const result = await productServices.updateProductByID(
+        const result = await productServices.updateProductById(
             req.params.productId,
             req.body
           );
@@ -104,24 +106,24 @@ const createProduct = async (req: Request, res: Response) => {
             message: "Product updated successfully",
             data: result,
           });
-    }catch{
-        if ( error instanceof Error) {
-            return res.status(400).json({
-              success: false,
-              message: "Invalid product ID format",
-            });
-          }
-          res.status(500).json({
-            success: false,
-            message: "Failed to update product",
-            error: error,
-          });
+   }catch (error) {
+      if ( error instanceof Error) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid product ID format",
+        });
+      }
+      res.status(500).json({
+        success: false,
+        message: "Failed to update product",
+        error: error,
+      });
     }
   };
 
   const deleteProductById=async(req:Request,res:Response)=>{
     try{
-        const result = await productServices.deleteProductByID(
+        const result = await productServices.deleteProductById(
             req.params.productId
           );
           if (!result) {
@@ -135,19 +137,19 @@ const createProduct = async (req: Request, res: Response) => {
             message: "Product deleted successfully",
             data: result,
           });
-    }catch{
-        if ( err instanceof Error) {
-            return res.status(400).json({
-              success: false,
-              message: "Invalid product ID",
-            });
-          }
-          res.status(500).json({
-            success: false,
-            message: "Failed to delete product",
-            error: err,
-          });
-    }
+    }catch (err) {
+      if ( err instanceof Error) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid product ID",
+        });
+      }
+      res.status(500).json({
+        success: false,
+        message: "Failed to delete product",
+        error: err,
+      });
+    }  
   };
 
   const searchOrGetAllProducts=async(req:Request,res:Response)=>{
@@ -182,15 +184,18 @@ const createProduct = async (req: Request, res: Response) => {
      }
 
     }else{
-      getAllProducts(req,res);
+      getAllProducts(res,res);
     }
   };
 
-  export const prductController={
+  export const productController={
+
     createProduct,
     getAllProducts,
     getProductById,
     updateProductById,
     deleteProductById,
     searchOrGetAllProducts,
-  }
+  };
+  
+    

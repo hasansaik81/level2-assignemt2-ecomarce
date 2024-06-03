@@ -16,7 +16,7 @@ const getOrdersByEmail=async(email:string)=>{
     return result;
 };
 
-export const  orderSevices={
+export const  orderServices ={
     createOrderToDb,
     getAllOrders,
     getOrdersByEmail

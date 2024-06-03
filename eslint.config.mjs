@@ -3,8 +3,10 @@ import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 
 
-export default tseslint.config(
-  eslint.configs.recommended,
+export default [
+  {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
+  {languageOptions: { globals: globals.browser }},
+  pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
 
   {
@@ -27,4 +29,4 @@ export default tseslint.config(
   },
 
 
-);
+];

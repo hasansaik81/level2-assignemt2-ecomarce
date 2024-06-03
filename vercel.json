@@ -10,7 +10,12 @@
       {
         "src": "/(.*)",
         "dest": "dist/server.js"
-      }
+      },
+
+     {
+      "method":
+     }
+    
     ]
   }
   
