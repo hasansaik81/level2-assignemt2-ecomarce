@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { TOrder } from "./order.inerface";
-// import { TOrder } from "./order.inerface";
+
 
 
 const orderSchema=new mongoose.Schema<TOrder>({

@@ -19,12 +19,11 @@ function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield mongoose_1.default.connect(config_1.default.db_url);
-            app_1.default.listen(config_1.default.port, () => {
-                console.log(`server in running on port:${config_1.default.port}`);
-            });
+            app_1.default.listen(config_1.default.port, () => console.log(`Server is running on port: ${config_1.default.port}`));
         }
-        catch (err) {
-            console.log(err);
+        catch (error) {
+            console.log(error);
         }
     });
 }
+main();

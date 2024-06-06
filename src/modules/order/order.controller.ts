@@ -1,10 +1,10 @@
-import { request, Request, Response } from "express";
+import { Request, Response } from "express";
 import { orderServices } from "./order.services";
 import { z } from "zod";
 import { orderValidationSchema } from "./order.validation";
 import { productServices } from "../products/product.services";
 
-const createOrder=async(req:Request,res:Response)=>{
+const createOrder=async(req:Request,res:Response) =>{
     try{
         const {email,productId,price,quatity}=req.body;
 //  check if the product exists
@@ -16,22 +16,22 @@ const createOrder=async(req:Request,res:Response)=>{
     });
   }
 //   check if the requested quatity is available 
-if(product.inventroy.quantity){
+if(product.inventory.quantity){
     return res.status(404).json({
         success:false,
         message:"Insufficient quantity available in invertory",
     });
 }
 // update the products inventory 
-product.inventroy.quantity -=quatity;
-product.inventroy.inStock=product.inventroy.quantity>0;
+product.inventory.quantity -=quatity;
+product.inventory.inStock=product.inventory.quantity>0;
 await product.save();
 
 // creat the Order 
 
-const orderData={email,productId,price,quatity};
-const validationOrderData=orderValidationSchema.parse(orderData);
-const result =await orderServices.createOrderToDb(validationOrderData);
+const orderData = { email, productId, price,quatity };
+const validationOrderData = orderValidationSchema.parse(orderData);
+const result = await orderServices.createOrderToDb(validationOrderData);
 if(!result){
     return res.status(404).json({
         success: false,
@@ -72,34 +72,59 @@ res.status(200).json({
 
     };
 
-    const getAllOrders=async(req:Request,res:Response)=>{
-        try{
-            const { email } = req.query;
-            if (email) {
-            }
-            const result = await orderServices.getAllOrders();
-            res.status(200).json({
-              success: true,
-              message: "Orders fetched successfully!",
-              data: result,
-            });
-        }catch{
-            if (Error instanceof Error) {
-                if (Error instanceof Error) {
-                  res.status(500).json({
-                    success: false,
-                    message: "Failed to fetch orders",
-                    error: Error.message,
-                  });
-                } else {
-                  res.status(500).json({
-                    success: false,
-                    message: "An unknown error occurred",
-                  });
-                }
-           }
+    // const getAllOrders=async(req:Request,res:Response)=>{
+    //     try{
+    //         const { email } = req.query;
+    //         if (email) {
+    //         }
+    //         const result = await orderServices.getAllOrders();
+    //         res.status(200).json({
+    //           success: true,
+    //           message: "Orders fetched successfully!",
+    //           data: result,
+    //         });
+    //     }catch{
+    //         if (Error instanceof Error) {
+    //             if (Error instanceof Error) {
+    //               res.status(500).json({
+    //                 success: false,
+    //                 message: "Failed to fetch orders",
+    //                 error: Error.message,
+    //               });
+    //             } else {
+    //               res.status(500).json({
+    //                 success: false,
+    //                 message: "An unknown error occurred",
+    //               });
+    //             }
+    //        }
+    //     }
+    // };
+
+    const getAllOrders = async (req: Request, res: Response) => {
+      try {
+        const result = await orderServices.getAllOrders();
+        res.status(200).json({
+          success: true,
+          message: "Orders fetched successfully!",
+          data: result,
+        });
+      } catch (error) {
+        if (error instanceof Error) {
+          res.status(500).json({
+            success: false,
+            message: "Failed to fetch orders",
+            error: error.message,
+          });
+        } else {
+          res.status(500).json({
+            success: false,
+            message: "An unknown error occurred",
+          });
         }
+      }
     };
+    
     const searchOrGetAllOrders=async(req:Request,res:Response)=>{
         // cosnt {email}=req.query;
         const {email}=req.query;
