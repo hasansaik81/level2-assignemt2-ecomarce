@@ -26,15 +26,15 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             });
         }
         //   check if the requested quatity is available 
-        if (product.inventroy.quantity) {
+        if (product.inventory.quantity) {
             return res.status(404).json({
                 success: false,
                 message: "Insufficient quantity available in invertory",
             });
         }
         // update the products inventory 
-        product.inventroy.quantity -= quatity;
-        product.inventroy.inStock = product.inventroy.quantity > 0;
+        product.inventory.quantity -= quatity;
+        product.inventory.inStock = product.inventory.quantity > 0;
         yield product.save();
         // creat the Order 
         const orderData = { email, productId, price, quatity };
@@ -80,11 +80,36 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
     }
 });
+// const getAllOrders=async(req:Request,res:Response)=>{
+//     try{
+//         const { email } = req.query;
+//         if (email) {
+//         }
+//         const result = await orderServices.getAllOrders();
+//         res.status(200).json({
+//           success: true,
+//           message: "Orders fetched successfully!",
+//           data: result,
+//         });
+//     }catch{
+//         if (Error instanceof Error) {
+//             if (Error instanceof Error) {
+//               res.status(500).json({
+//                 success: false,
+//                 message: "Failed to fetch orders",
+//                 error: Error.message,
+//               });
+//             } else {
+//               res.status(500).json({
+//                 success: false,
+//                 message: "An unknown error occurred",
+//               });
+//             }
+//        }
+//     }
+// };
 const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email } = req.query;
-        if (email) {
-        }
         const result = yield order_services_1.orderServices.getAllOrders();
         res.status(200).json({
             success: true,
@@ -92,21 +117,19 @@ const getAllOrders = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             data: result,
         });
     }
-    catch (_a) {
-        if (Error instanceof Error) {
-            if (Error instanceof Error) {
-                res.status(500).json({
-                    success: false,
-                    message: "Failed to fetch orders",
-                    error: Error.message,
-                });
-            }
-            else {
-                res.status(500).json({
-                    success: false,
-                    message: "An unknown error occurred",
-                });
-            }
+    catch (error) {
+        if (error instanceof Error) {
+            res.status(500).json({
+                success: false,
+                message: "Failed to fetch orders",
+                error: error.message,
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                message: "An unknown error occurred",
+            });
         }
     }
 });

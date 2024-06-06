@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OrderModel = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-// import { TOrder } from "./order.inerface";
 const orderSchema = new mongoose_1.default.Schema({
     email: {
         type: String,

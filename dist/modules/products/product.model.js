@@ -5,8 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductModel = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-// import { string } from "zod";
-// variant schema 
+// Variant Schema
 const variantSchema = new mongoose_1.default.Schema({
     type: {
         type: String,
@@ -14,11 +13,11 @@ const variantSchema = new mongoose_1.default.Schema({
     },
     value: {
         type: String,
-        requierd: true,
+        required: true,
     },
 });
-//  inventory Schema 
-const invertorySchema = new mongoose_1.default.Schema({
+// Inventory Schema
+const inventorySchema = new mongoose_1.default.Schema({
     quantity: {
         type: Number,
         required: true,
@@ -28,6 +27,7 @@ const invertorySchema = new mongoose_1.default.Schema({
         required: true,
     },
 });
+// Product Schema
 const productSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
@@ -54,9 +54,9 @@ const productSchema = new mongoose_1.default.Schema({
         required: true,
     },
     inventory: {
-        type: invertorySchema,
+        type: inventorySchema,
         required: true,
     },
 });
-const ProductModel = mongoose_1.default.model("Product ", productSchema);
+const ProductModel = mongoose_1.default.model("Product", productSchema);
 exports.ProductModel = ProductModel;

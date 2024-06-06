@@ -16,7 +16,7 @@ const orderSchema=new mongoose.Schema<TOrder>({
         type:Number,
         required:true
     },
-    quatity:{
+    quantity:{
         type:Number,
         required:true
     },
