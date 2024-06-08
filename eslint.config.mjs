@@ -22,7 +22,7 @@ export default tseslint.config(
     },
   },
   {
-    ignores: ["**/node_modules/**", "**/dist/**", ".env"],
+    ignores: ["**/node_modules/", "**/dist/"],
   }
 );
 

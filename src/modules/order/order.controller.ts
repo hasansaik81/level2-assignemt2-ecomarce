@@ -72,34 +72,7 @@ res.status(200).json({
 
     };
 
-    // const getAllOrders=async(req:Request,res:Response)=>{
-    //     try{
-    //         const { email } = req.query;
-    //         if (email) {
-    //         }
-    //         const result = await orderServices.getAllOrders();
-    //         res.status(200).json({
-    //           success: true,
-    //           message: "Orders fetched successfully!",
-    //           data: result,
-    //         });
-    //     }catch{
-    //         if (Error instanceof Error) {
-    //             if (Error instanceof Error) {
-    //               res.status(500).json({
-    //                 success: false,
-    //                 message: "Failed to fetch orders",
-    //                 error: Error.message,
-    //               });
-    //             } else {
-    //               res.status(500).json({
-    //                 success: false,
-    //                 message: "An unknown error occurred",
-    //               });
-    //             }
-    //        }
-    //     }
-    // };
+    
 
     const getAllOrders = async (req: Request, res: Response) => {
       try {
